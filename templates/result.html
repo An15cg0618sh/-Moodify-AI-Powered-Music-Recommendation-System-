@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moodify - Your Recommendations</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+    <div class="container py-5">
+        <div class="text-center mb-4">
+            <h1 class="logo">Moodify</h1>
+            <p class="lead">Your Mood-Based Music Recommender</p>
+        </div>
+
+        <div class="text-center mb-4">
+            <p>Based on your input, we detected your mood as:</p>
+            <div class="mood-badge">
+                <i class="fas 
+                {% if mood == 'joy' %}fa-smile
+                {% elif mood == 'sadness' %}fa-sad-tear
+                {% elif mood == 'anger' %}fa-angry
+                {% elif mood == 'fear' %}fa-flushed
+                {% elif mood == 'love' %}fa-heart
+                {% elif mood == 'surprise' %}fa-surprise
+                {% elif mood == 'disgust' %}fa-grimace
+                {% else %}fa-meh
+                {% endif %} me-2"></i>
+                {{ mood|title }}
+            </div>
+        </div>
+
+        <h3 class="mb-4 text-center">Here are your personalized music recommendations:</h3>
+
+        {% for song in songs %}
+        <div class="card song-card">
+            <div class="song-number">{{ loop.index }}</div>
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h4>{{ song.name }}</h4>
+                    <p class="mb-0"><i class="fas fa-user me-2"></i>{{ song.artist }}</p>
+                </div>
+                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                    <a href="{{ song.uri }}" class="btn btn-spotify" target="_blank">
+                        <i class="fab fa-spotify me-2"></i>Play on Spotify
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        <div class="text-center mt-4">
+            <a href="/" class="btn btn-back">
+                <i class="fas fa-arrow-left me-2"></i>Try Again with a Different Mood
+            </a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
